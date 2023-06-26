@@ -19,6 +19,19 @@ const App = () => {
         });
     };
 
+    const omDeleteHandler = (id) => {
+        const index = taskList.findIndex((task) => {
+            return task._id === id;
+        });
+
+        setTaskList((prevTask) => {
+            return [
+                ...prevTask.slice(0, index),
+                ...prevTask.slice(index + 1, prevTask.length),
+            ];
+        });
+    };
+
     const fetchTaskList = async () => {
         const url = makeUrl("/task/list");
         const lists = await axios.get(url);
@@ -48,7 +61,13 @@ const App = () => {
                 </div>
 
                 {taskList.map((task) => {
-                    return <List task={task} key={task._id}/>;
+                    return (
+                        <List
+                            task={task}
+                            key={task._id}
+                            onDelete={omDeleteHandler}
+                        />
+                    );
                 })}
             </div>
         </MainLayout>

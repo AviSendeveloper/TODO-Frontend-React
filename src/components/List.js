@@ -1,10 +1,22 @@
 import React from "react";
 import moment from "moment";
+import axios from "axios";
 import { MdDelete } from "react-icons/md";
 import { AiFillEdit } from "react-icons/ai";
 import DateBlock from "./dateBlock";
+import makeUrl from "../util/makeUrl";
 
 const List = (props) => {
+    const deleteHandler = async (id) => {
+        const response = await axios.post(makeUrl("/task/delete"), {
+            id: id,
+        });
+
+        if (response.status) {
+            props.onDelete(id);
+        }
+    };
+
     return (
         <React.Fragment>
             <ul className="list-group list-group-horizontal rounded-0">
@@ -33,19 +45,18 @@ const List = (props) => {
                             href="#!"
                             className="text-info"
                             data-mdb-toggle="tooltip"
-                            title="Edit todo"
-                        >
-                            {/* <i className="fas fa-pencil-alt me-3"></i> */}
-                            {/* <FontAwesomeIcon icon={faEnvelope} /> */}
-                            <MdDelete />
+                            title="Edit todo">
+                            <AiFillEdit />
                         </a>
                         <a
                             href="#!"
                             className="text-danger"
                             data-mdb-toggle="tooltip"
                             title="Delete todo"
-                        >
-                            <AiFillEdit />
+                            onClick={() => {
+                                deleteHandler(props.task._id);
+                            }}>
+                            <MdDelete />
                         </a>
                     </div>
                     <div className="text-end text-muted">
@@ -53,8 +64,7 @@ const List = (props) => {
                             href="#!"
                             className="text-muted"
                             data-mdb-toggle="tooltip"
-                            title="Created date"
-                        >
+                            title="Created date">
                             <p className="small mb-0">
                                 <i className="fas fa-info-circle me-2"></i>
                                 {moment(props.task.createdAt).format(
