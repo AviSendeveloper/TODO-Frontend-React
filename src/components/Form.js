@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import makeUrl from "../util/makeUrl";
 
-const Form = () => {
+const Form = (props) => {
     const [userInput, setUserInput] = useState({
         title: "",
         date: "",
@@ -14,16 +14,19 @@ const Form = () => {
         });
     };
 
+    const selectDateHandler = (event) => {
+        setUserInput((prevState) => {
+            return { ...prevState, date: event.target.value };
+        });
+    }
+
     const submitTask = async (event) => {
         const url = makeUrl('/task/create');
-        console.log(url);
         const result = await axios.post(url, {
             title: userInput.title,
             date: userInput.date
-        })
-        .then(result => console.log('result: ', result))
-        .catch(error => console.log('error: ', error));
-        // console.log('result: ', result);
+        });
+        await props.onCreateTask(result.data.data);
     }
 
     return (
@@ -41,12 +44,11 @@ const Form = () => {
                                 onChange={titleChangeHandler}
                             />
                             <input
-                                // href="#!"
-                                // data-mdb-toggle="tooltip"
                                 type="date"
-                                title="Set due date" />
+                                title="Set due date"
+                                onChange={selectDateHandler}
+                            />
                                 <i className="fas fa-calendar-alt fa-lg me-3"></i>
-                            {/* </input> */}
                             <div>
                                 <button type="button" className="btn btn-primary" onClick={submitTask}>
                                     Add

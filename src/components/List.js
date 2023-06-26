@@ -1,6 +1,10 @@
 import React from "react";
+import moment from "moment";
+import { MdDelete } from "react-icons/md";
+import { AiFillEdit } from "react-icons/ai";
+import DateBlock from "./dateBlock";
 
-const List = () => {
+const List = (props) => {
     return (
         <React.Fragment>
             <ul className="list-group list-group-horizontal rounded-0">
@@ -16,36 +20,32 @@ const List = () => {
                     </div>
                 </li>
                 <li className="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
-                    <p className="lead fw-normal mb-0">Renew car insurance</p>
+                    <p className="lead fw-normal mb-0">{props.task.title}</p>
                 </li>
-                <li className="list-group-item px-3 py-1 d-flex align-items-center border-0 bg-transparent">
-                    <div className="py-2 px-3 me-2 border border-warning rounded-3 d-flex align-items-center bg-light">
-                        <p className="small mb-0">
-                            <a
-                                href="#!"
-                                data-mdb-toggle="tooltip"
-                                title="Due on date">
-                                <i className="fas fa-hourglass-half me-2 text-warning"></i>
-                            </a>
-                            28th Jun 2020
-                        </p>
-                    </div>
-                </li>
+
+                {props.task.dueDate !== undefined && (
+                    <DateBlock date={props.task.dueDate} />
+                )}
+
                 <li className="list-group-item ps-3 pe-0 py-1 rounded-0 border-0 bg-transparent">
                     <div className="d-flex flex-row justify-content-end mb-1">
                         <a
                             href="#!"
                             className="text-info"
                             data-mdb-toggle="tooltip"
-                            title="Edit todo">
-                            <i className="fas fa-pencil-alt me-3"></i>
+                            title="Edit todo"
+                        >
+                            {/* <i className="fas fa-pencil-alt me-3"></i> */}
+                            {/* <FontAwesomeIcon icon={faEnvelope} /> */}
+                            <MdDelete />
                         </a>
                         <a
                             href="#!"
                             className="text-danger"
                             data-mdb-toggle="tooltip"
-                            title="Delete todo">
-                            <i className="fas fa-trash-alt"></i>
+                            title="Delete todo"
+                        >
+                            <AiFillEdit />
                         </a>
                     </div>
                     <div className="text-end text-muted">
@@ -53,10 +53,13 @@ const List = () => {
                             href="#!"
                             className="text-muted"
                             data-mdb-toggle="tooltip"
-                            title="Created date">
+                            title="Created date"
+                        >
                             <p className="small mb-0">
-                                <i className="fas fa-info-circle me-2"></i>28th Jun
-                                2020
+                                <i className="fas fa-info-circle me-2"></i>
+                                {moment(props.task.createdAt).format(
+                                    "Do MMM YYYY"
+                                )}
                             </p>
                         </a>
                     </div>
