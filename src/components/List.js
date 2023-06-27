@@ -35,7 +35,7 @@ const List = (props) => {
                     <p className="lead fw-normal mb-0">{props.task.title}</p>
                 </li>
 
-                {props.task.dueDate !== undefined && (
+                {(props.task.dueDate !== undefined && props.task.dueDate !== null) && (
                     <DateBlock date={props.task.dueDate} />
                 )}
 

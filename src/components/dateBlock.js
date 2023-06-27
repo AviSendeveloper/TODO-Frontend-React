@@ -14,7 +14,6 @@ const List = (props) => {
                         >
                             <i className="fas fa-hourglass-half me-2 text-warning"></i>
                         </a>
-                        {console.log('date: ', props.date)}
                         {moment(props.date).format('Do MMM YYYY')}
                     </p>
                 </div>
